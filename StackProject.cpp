@@ -209,12 +209,12 @@ int main()
     {
         switch (choice)
         {
-        case 1: // case for inserting an element
-            // how man elements you want to inset
+        case 1:
+            // case for inserting an element
             // for loop as long as its less than i to insert
             // after call quicksort
             // then other loop to insert into stack, add to the top only
-            for (int i = 0; i < maxSize; i++)
+            while (arr.getnumItems() < maxSize) // for (int i = 0; i < maxSize; i++)
             {
                 cout << "Enter the item's name: ";
                 cin >> itemName;
@@ -222,28 +222,30 @@ int main()
                 cin >> itemWeight;
 
                 double TotalCapacity = arr.capTotalCalc();
-                if (TotalCapacity <= capacity)
-                {
-                    arr.insert(itemName, itemWeight);
-                }
-                else if (itemWeight > capacity)
+                if ((TotalCapacity > capacity) || ((itemWeight > capacity)))
                 {
                     cout << "Previous item added exceeds the van's total capacity so it wasn't added" << endl;
                     continue;
                 }
+                else if (TotalCapacity <= capacity)
+                {
+                    arr.insert(itemName, itemWeight);
+                }
             }
 
             cout << endl;
-            /*cout << "Items sorted by weight:" << endl
+            cout << "Items sorted by weight:" << endl
                  << endl;
             numItems = arr.getnumItems();
-            arr.Quicksort(0, numItems - 1);*/
+            arr.Quicksort(0, numItems - 1);
             arr.displayClassItems();
             cout << endl;
 
-            /*for (int j = 0; j < maxSize; j++)
+            /*for (int j = 0; j < arr.getnumItems(); j++)
             {
-                van.push(arr[i]);
+                string vanItemName = arr[j].getItemName();
+                double vanItemWeight = arr[j].getItemWeight();
+                van.push(vanItemName, vanItemWeight);
             }
             cout << endl;*/
             break;
