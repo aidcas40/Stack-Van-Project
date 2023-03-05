@@ -39,12 +39,11 @@ public:
 class ClassItemArray
 {
 private:
-    vector<Item*>v;
+    vector<Item *> v;
     int numItems;
 
 public:
     ClassItemArray(int max) : numItems(0) // constructor
-
     {
         v.resize(max);
     } // create the array
@@ -62,7 +61,7 @@ public:
     }
 
     //--------------------------------------------------------------
-    // Selection Sort
+    // Quick Sort
     void swap(int pos1, int pos2)
     {
         Item *temp;
@@ -77,7 +76,7 @@ public:
         int i = low;
         while (i <= high)
         {
-            if (v[i]->getWeight() > pivot->getWeight())
+            if (v[i]->getWeight() < pivot->getWeight()) // orginal: (v[i]->getWeight() > pivot->getWeight()), change to < for descending order
             {
                 i++;
             }
@@ -106,158 +105,162 @@ public:
     void displayClassItems() // displays array contents
     {
         for (int j = 0; j < numItems; j++) // for each element,
-            v[j]->displayItem();       // display it
+            v[j]->displayItem();           // display it
+    }
+
+    //-------------------------------------------------------------
+    double capTotalCalc()
+    {
+        double capTotal = 0;
+        for (int j = 0; j < numItems; j++) // for each item
+        {
+            capTotal += v[j]->getWeight(); // calculate total weight by using getWeight()
+        }
+        return capTotal;
     }
 
     //--------------------------------------------------------------
     void menu() // displays menu options
     {
         cout << "Menu: " << endl;
-        cout << "1. Insert item" << endl;
+        cout << "1. Insert items" << endl;
         cout << "2. Sort Items" << endl;
         cout << "3. Exit" << endl;
         cout << endl;
     }
 };
 
-/*class VanStack
+class VanStack
 {
-    private:
-        string itemName;
-        double itemWeight;
+private:
+    int capacity;            // size of stack vector
+    vector<Item *> stackVan; // stack vector
+    int top;
 
-    public:
-//--------------------------------------------------------------
-        GroceryItem(string iname, double iweight) :                       //constructor
-            itemName(iname), itemWeight(iweight)
-            { }
-//--------------------------------------------------------------
-    void displayGrocery()                                           //function that displays the groceries items
+public:
+    VanStack(int c) : capacity(c), top(-1) // constructor
     {
-        cout<<"\n";
-        cout << "Grocery Item: " << groceryName;                    //displays grocery name
-        cout<<", ";
-        cout << "Price: " << price;                                 //displays grocery price
+        stackVan.reserve(capacity); // size the vector
     }
-//--------------------------------------------------------------
-
-    string getName()                                                //get grocery name
-        {return groceryName;}
-
-    double getPrice()                                               //get grocery price
-        {return price;}
-
-};                                                                  //end class groceryItem
-
-class StackX
-{
-    private:
-        int maxSize;                                                //size of stack vector
-        vector<GroceryItem*> stackVect;                             //stack vector
-        int top;                                                    //top of stack
-
-    public:
-//--------------------------------------------------------------
-        StackX(int s) : maxSize(s), top(-1)                         //constructor
-        {
-            stackVect.reserve(maxSize);                             //size the vector
-        }
-//--------------------------------------------------------------
-    void push(string name, double p)                                //put item on top
+    //--------------------------------------------------------------
+    void push(string itemNameVan, double itemWeightVan) // put item on top
     {
-        stackVect[++top] = new GroceryItem(name, p);                //increment top
-        cout << stackVect[top]->getName() << " has been inserted into the stack." << endl;  //displays grocery item name inserted from the top
-    }                                                               //insert item
+        stackVan[++top] = new Item(itemNameVan, itemWeightVan); // increment top
+        cout << stackVan[top]->getName();
+    } // insert item
 
-    GroceryItem* pop()                                              //take item from top
+    Item *pop() // take item from top
     {
-        cout << stackVect[top]->getName() << " has been deleted from the stack." << endl;   //displays grocery item deleted from the top
-        return stackVect[top--];                                    //access item,
-    }                                                               //decrement top
-//--------------------------------------------------------------
-    GroceryItem* peek()                                             //peek at top of stack
+        cout << stackVan[top]->getName() << " has been deleted from the stack." << endl; // displays grocery item deleted from the top
+        return stackVan[top--];                                                          // access item,
+    }                                                                                    // decrement top
+    //--------------------------------------------------------------
+    Item *peek() // peek at top of stack
     {
-        return stackVect[top];
+        return stackVan[top];
     }
-//--------------------------------------------------------------
-    bool isEmpty()                                                  //true if stack is empty
+    //--------------------------------------------------------------
+    bool isEmpty() // true if stack is empty
     {
         return (top == -1);
     }
-//--------------------------------------------------------------
-    bool isFull()                                                   //true if stack is full
+    //--------------------------------------------------------------
+    bool isFull() // true if stack is full
     {
-        return (top == maxSize-1);
+        return (top == capacity - 1);
     }
-//--------------------------------------------------------------
-    void displayStack()                                             //display items in the stack
+
+    //--------------------------------------------------------------
+    void displayStackVan() // display items in the stack
     {
-        if(top >= 0)
+        if (top >= 0)
         {
-            cout << endl << "The grocery items are:";
-            for(int i = top; i >= 0; i--)                           //for each item
-                stackVect[i]->displayGrocery();                     //display it, both the grocery name and price
-            cout<< endl;
+            cout << endl
+                 << "The items are:";
+            for (int i = top; i >= 0; i--)  // for each item
+                stackVan[i]->displayItem(); // display it, both the grocery name and price
+            cout << endl;
         }
     }
-//--------------------------------------------------------------
-    void menu()                                                     //displays menu options
-    {
-        cout << "Menu: " << endl;
-        cout << "1. Insert item into the van" << endl;
-        cout << "2. Remove item from the van" << endl;
-        cout << "3. Peek for the item at the top" << endl;
-        cout << "4. Display items loaded into the van" << endl;
-        cout << "5. Exit the program" << endl;
-        cout << endl;
-    }
-};                                                                  //end class StackX*/
+}; // end class groceryItem
 
 int main()
 {
-    int maxSize = 100; //array size
-    ClassItemArray arr(maxSize); //array
+
+    int maxSize = 3;             // array size
+    ClassItemArray arr(maxSize); // array
+    VanStack van(maxSize);
     int choice;
     string itemName;
     double itemWeight;
+    double capacity;
     int numItems;
 
-    arr.insert("Cabinet", 45.43);
-    arr.insert("Lamp", 10.43);
+    cout << "Enter van capacity: ";
+    cin >> capacity;
 
     cout << endl;
     arr.menu();
     cout << "Enter your choice: ";
     cin >> choice;
+    cout << endl;
 
-     while(choice != 3)
+    while (choice != 3)
     {
-        switch (choice) 
+        switch (choice)
+        {
+        case 1: // case for inserting an element
+            // how man elements you want to inset
+            // for loop as long as its less than i to insert
+            // after call quicksort
+            // then other loop to insert into stack, add to the top only
+            for (int i = 0; i < maxSize; i++)
+            {
+                cout << "Enter the item's name: ";
+                cin >> itemName;
+                cout << "Enter the item's weight: ";
+                cin >> itemWeight;
+
+                double TotalCapacity = arr.capTotalCalc();
+                if (TotalCapacity <= capacity)
                 {
-                    case 1:                                                 //case for inserting an element
-                        cout << endl;
-                        cout << "Enter the item's name: ";
-                        cin >> itemName;
-                        cout << "Enter the item's weight: ";
-                        cin >> itemWeight;
-                        arr.insert(itemName, itemWeight);                      
-                        cout << endl;
-                        arr.displayClassItems();                                          //displays the array
-                        cout << endl;
-                        break;                                                      
-                    case 2:
-                        cout << "Sorting by Weight" << endl << endl;
-                        numItems = arr.getnumItems();
-                        arr.Quicksort(0, numItems - 1);
-                        arr.displayClassItems();
-                        cout << endl;
-                        break;
-                    default:                                                
-                        cout << "Invalid choice!" << endl;
+                    arr.insert(itemName, itemWeight);
                 }
-                arr.menu();
-                cout << "Enter your choice: ";
-                cin >> choice;
+                else if (itemWeight > capacity)
+                {
+                    cout << "Previous item added exceeds the van's total capacity so it wasn't added" << endl;
+                    continue;
+                }
+            }
+
+            cout << endl;
+            /*cout << "Items sorted by weight:" << endl
+                 << endl;
+            numItems = arr.getnumItems();
+            arr.Quicksort(0, numItems - 1);*/
+            arr.displayClassItems();
+            cout << endl;
+
+            /*for (int j = 0; j < maxSize; j++)
+            {
+                van.push(arr[i]);
+            }
+            cout << endl;*/
+            break;
+        case 2:
+            cout << "Items sorted by weight:" << endl
+                 << endl;
+            numItems = arr.getnumItems();
+            arr.Quicksort(0, numItems - 1);
+            arr.displayClassItems();
+            cout << endl;
+            break;
+        default:
+            cout << "Invalid choice!" << endl;
+        }
+        arr.menu();
+        cout << "Enter your choice: ";
+        cin >> choice;
     }
     return 0;
 }
