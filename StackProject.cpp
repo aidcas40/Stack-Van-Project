@@ -342,13 +342,14 @@ int main()
                 arr.displayClassItems();
                 cout << endl;
                 
-                /*if(!van.isEmpty())
+                if(!van.isEmpty())
                 {
-                    for(int i = 0; i <numItems; i++)
+                    for(int i = 0; i < numItems -1; i++)
                     {
                         van.pop();
                     }
-                }*/
+                    cout << "//--------------------------------------------------------------//\n";
+                }
                 
                 //Entering Items onto van.
                 cout << "Loading All Items onto Van!" << endl;
