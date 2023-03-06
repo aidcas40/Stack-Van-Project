@@ -146,14 +146,14 @@ public:
     void push(string itemNameVan, double itemWeightVan) // put item on top
     {
         stackVan[++top] = new Item(itemNameVan, itemWeightVan); // increment top
-        cout << stackVan[top]->getName();
+        cout << stackVan[top]->getName() << " has been added to the van";
     } // insert item
 
     Item *pop() // take item from top
     {
-        cout << stackVan[top]->getName() << " has been deleted from the stack." << endl; // displays grocery item deleted from the top
-        return stackVan[top--];                                                          // access item,
-    }                                                                                    // decrement top
+        cout << stackVan[top]->getName() << " has been removed from the van." << endl; // displays grocery item deleted from the top
+        return stackVan[top--];                                                        // access item,
+    }                                                                                  // decrement top
     //--------------------------------------------------------------
     Item *peek() // peek at top of stack
     {
@@ -187,6 +187,7 @@ public:
 int main()
 {
 
+    
     int maxSize = 3;             // array size
     ClassItemArray arr(maxSize); // array
     VanStack van(maxSize);
@@ -196,7 +197,7 @@ int main()
     double capacity;
     int numItems;
 
-    cout << "Enter van capacity: ";
+    cout << "Enter van's maximum storage capacity: ";
     cin >> capacity;
 
     cout << endl;
@@ -210,10 +211,6 @@ int main()
         switch (choice)
         {
         case 1:
-            // case for inserting an element
-            // for loop as long as its less than i to insert
-            // after call quicksort
-            // then other loop to insert into stack, add to the top only
             while (arr.getnumItems() < maxSize) // for (int i = 0; i < maxSize; i++)
             {
                 cout << "Enter the item's name: ";
@@ -241,13 +238,17 @@ int main()
             arr.displayClassItems();
             cout << endl;
 
-            /*for (int j = 0; j < arr.getnumItems(); j++)
+            /*string vanItemName;
+            double vanItemWeight;
+
+            for (int j = 0; j < arr.getnumItems(); j++)
             {
-                string vanItemName = arr[j].getItemName();
-                double vanItemWeight = arr[j].getItemWeight();
+                vanItemName = arr[j]->getName();
+                vanItemWeight = arr[j]->getWeight();
                 van.push(vanItemName, vanItemWeight);
             }
-            cout << endl;*/
+            cout << endl;
+            van.displayStackVan();*/
             break;
         case 2:
             cout << "Items sorted by weight:" << endl
