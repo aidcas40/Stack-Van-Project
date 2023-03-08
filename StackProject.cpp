@@ -281,6 +281,13 @@ int main()
     double capacity;
     int numItems;
 
+    //Hardcoding 5 items
+    arr.insert("Cabinet", 70);
+    arr.insert("Shelf", 50);
+    arr.insert("Fridge", 240);
+    arr.insert("Computer", 10);
+    arr.insert("Stove", 280);
+    
     cout << "Enter van's maximum storage capacity: ";
     cin >> capacity;
     cout << "//--------------------------------------------------------------//\n";  
@@ -344,7 +351,7 @@ int main()
                 
                 if(!van.isEmpty())
                 {
-                    for(int i = 0; i < numItems -1; i++)
+                    for(int i = 0; i <numItems -1; i++)
                     {
                         van.pop();
                     }
