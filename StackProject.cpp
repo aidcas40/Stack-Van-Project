@@ -6,16 +6,19 @@ using namespace std;
 class Item
 {
 private:
-    string itemName;
+    string itemID, itemName;
     double itemWeight;
 
 public:
-    Item(string iname, double iweight) : itemName(iname), itemWeight(iweight)
-    {
-    }
+    Item(string id, string iname, double iweight) : itemID(id), itemName(iname), itemWeight(iweight)
+    {}
 
     //--------------------------------------------------------------
 
+    string getID()
+    {
+        return itemID;
+    }
     string getName() // get item name
     {
         return itemName;
@@ -30,6 +33,7 @@ public:
 
     void displayItem()
     {
+        cout << "ID: " << itemID;
         cout << " Name: " << itemName;
         cout << ", Weight:" << itemWeight << endl;
     }
@@ -53,6 +57,12 @@ public:
         return numItems;
     }
     //Getting the name
+    string returnID(int pos)
+    {
+        string ID;
+        ID = v[pos]->getID();
+        return ID;
+    }
     string returnName(int pos)
     {   
         string name;
@@ -66,9 +76,9 @@ public:
         return weight;
     }
     //--------------------------------------------------------------
-    void insert(string itemName, double itemWeight)
+    void insert(string itemID, string itemName, double itemWeight)
     {
-        v[numItems] = new Item(itemName, itemWeight);
+        v[numItems] = new Item(itemID, itemName, itemWeight);
         numItems++; // increment size
     }
 
@@ -157,9 +167,9 @@ public:
         stackVan.reserve(capacity); // size the vector
     }
     //--------------------------------------------------------------
-    void push(string itemNameVan, double itemWeightVan) // put item on top
+    void push(string itemIDVan, string itemNameVan, double itemWeightVan) // put item on top
     {
-        stackVan[++top] = new Item(itemNameVan, itemWeightVan); // increment top
+        stackVan[++top] = new Item(itemIDVan, itemNameVan, itemWeightVan); // increment top
         cout << stackVan[top]->getName() << " has been loaded to the van." << endl;
     } // insert item
 
@@ -168,6 +178,10 @@ public:
         cout << stackVan[top]->getName() << " has been unloaded from the van." << endl; // displays grocery item deleted from the top
         return stackVan[top--];                                                        // access item,
     }                                                                                  // decrement 
+    string popID()
+    {
+        return stackVan[top]->getID();
+    }
     string popName()
     {
         return stackVan[top]->getName();
@@ -181,9 +195,9 @@ public:
     {
         return stackVan[top]->displayItem();
     }
-    string peekName()
+    string peekID()
     {
-        return stackVan[top]->getName();
+        return stackVan[top]->getID();
     }
     //--------------------------------------------------------------
     bool isEmpty() // true if stack is empty
@@ -221,14 +235,18 @@ class UnloadStack
     {
         stackUn.reserve(capacity); // size the vector
     }
-    void push(string nameUnload, double weightUnload) // put item on top
+    void push(string idUnload, string nameUnload, double weightUnload) // put item on top
     {
-        stackUn[++top] = new Item(nameUnload, weightUnload); // increment top
+        stackUn[++top] = new Item(idUnload, nameUnload, weightUnload); // increment top
         //cout << stackUn[top]->getName() << " has been added to the van." << endl;
     } // insert item
     Item *pop()
     {
         return stackUn[top--];
+    }
+    string popID()
+    {
+        return stackUn[top]->getID();
     }
     string popName()
     {
@@ -276,17 +294,17 @@ int main()
     VanStack van(maxSize);
     UnloadStack unload(maxSize);
     int choice;
-    string itemName;
+    string itemID,itemName;
     double itemWeight;
     double capacity;
     int numItems;
 
     //Hardcoding 5 items
-    arr.insert("Cabinet", 70);
-    arr.insert("Shelf", 50);
-    arr.insert("Fridge", 240);
-    arr.insert("Computer", 10);
-    arr.insert("Stove", 280);
+    arr.insert("3203", "Cabinet", 70);
+    arr.insert("2145", "Shelf", 50);
+    arr.insert("6952", "Fridge", 240);
+    arr.insert("2014", "Computer", 10);
+    arr.insert("1025", "Stove", 280);
     
     cout << "Enter van's maximum storage capacity: ";
     cin >> capacity;
@@ -312,9 +330,11 @@ int main()
                 {
                     do
                     {
-                        cout << "Enter the item's name: ";
+                        cout << "Enter the Item's ID: ";
+                        cin >> itemID;
+                        cout << "Enter the Item's Name: ";
                         cin >> itemName;
-                        cout << "Enter the item's weight: ";
+                        cout << "Enter the Item's Weight: ";
                         cin >> itemWeight;
         
                         double TotalCapacity = arr.capTotalCalc();
@@ -328,7 +348,7 @@ int main()
                         }
                         else if (TotalCapacity <= capacity)
                         {
-                            arr.insert(itemName, itemWeight);
+                            arr.insert(itemID, itemName, itemWeight);
                         }
                         cout << "Continue Loading Items onto Van? [Y|N] : ";
                         cin >> yn;
@@ -360,14 +380,15 @@ int main()
                 
                 //Entering Items onto van.
                 cout << "Loading All Items onto Van!" << endl;
-                string vanItemName;
+                string vanItemID, vanItemName;
                 double vanItemWeight;
                 
                 for (int j = 0; j < arr.getnumItems(); j++)
                 {
+                    vanItemID = arr.returnID(j);
                     vanItemName = arr.returnName(j);
                     vanItemWeight = arr.returnWeight(j);
-                    van.push(vanItemName, vanItemWeight);
+                    van.push(vanItemID, vanItemName, vanItemWeight);
                 }
                 cout << endl;
                 van.displayStackVan();
@@ -388,7 +409,7 @@ int main()
             cout << endl;
             if(!van.isEmpty() )
             {
-                string popName;
+                string popID, popName;
                 double popWeight;
                 int choice;
                 cout << "~Unloading Item~\n"
@@ -402,7 +423,7 @@ int main()
                 if(choice ==  1)
                 {
                     string rem;
-                    cout << "Search Item Name: ";
+                    cout << "Search Item ID: ";
                     cin >> rem;
                     cout << "//--------------------------------------------------------------//\n"; 
                     
@@ -412,12 +433,13 @@ int main()
                         cout << "Item is not ontop!" << endl;
                         cout << "Unloading Items..." << endl;
                         //Getting the name & weigth of the item thats about to be popped.
+                        popID = van.popID();
                         popName = van.popName();
                         popWeight = van.popWeight();
                         van.pop();
                     
-                        unload.push(popName, popWeight);
-                    }while(rem != van.peekName());
+                        unload.push(popID, popName, popWeight);
+                    }while(rem != van.peekID());
                     
                     //Popping the item at the top since its the one being searched for.
                     cout << "//--------------------------------------------------------------//\n";  
@@ -428,11 +450,12 @@ int main()
                     cout << "Loading Items..." << endl;
                     do
                     {   //Inserting everything back onto the van.
+                        popID = unload.popID();
                         popName = unload.popName();
                         popWeight = unload.popWeight();
                         unload.pop();
                         
-                        van.push(popName, popWeight);
+                        van.push(popID, popName, popWeight);
                         
                     }while(!unload.isEmpty());//Doing this while there are items in the unload stack.
                     cout << "//--------------------------------------------------------------//\n"; 
