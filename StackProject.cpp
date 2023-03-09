@@ -295,7 +295,7 @@ int main()
     UnloadStack unload(maxSize);
     int choice;
     string itemID,itemName;
-    double itemWeight;
+    double itemWeight, TotalCapacity ;
     double capacity;
     int numItems;
 
@@ -306,8 +306,26 @@ int main()
     arr.insert("2014", "Computer", 10);
     arr.insert("1025", "Stove", 280);
     
+    
+    //Inserting the items into stack.
+    for (int j = 0; j < arr.getnumItems(); j++)
+    {
+        TotalCapacity = arr.capTotalCalc();
+        van.push(arr.returnID(j), arr.returnName(j), arr.returnWeight(j));
+    }
+    cout << "//--------------------------------------------------------------//\n";
+    cout << "Van Currently Holds: " << TotalCapacity << endl;
     cout << "Enter van's maximum storage capacity: ";
     cin >> capacity;
+    while(capacity <= TotalCapacity)
+    {   //Making sure user inputs weight higher than the hardcoded items.
+        cout << "Warning: Weight must be higher than " << TotalCapacity << "!" << endl;
+        cout << endl;
+        cout << "Enter van's maximum storage capacity: ";
+        cin >> capacity;
+        
+    }
+    
     cout << "//--------------------------------------------------------------//\n";  
 
     arr.menu();
@@ -330,18 +348,33 @@ int main()
                 {
                     do
                     {
+                        
                         cout << "Enter the Item's ID: ";
                         cin >> itemID;
+                        //Checking if the ID is unique
+                        for(int i = 0; i < arr.getnumItems(); i++)
+                        {
+                            string check;
+                            check = arr.returnID(i);
+                            if(itemID == check)
+                            {
+                                cout << "Warning: ID is already in us!" << endl;
+                                cout << endl;
+                                cout << "Enter the Item's ID: ";
+                                cin >> itemID;
+                            }
+                            
+                        }
                         cout << "Enter the Item's Name: ";
                         cin >> itemName;
                         cout << "Enter the Item's Weight: ";
                         cin >> itemWeight;
         
-                        double TotalCapacity = arr.capTotalCalc();
+                        TotalCapacity = arr.capTotalCalc();
                         if ((TotalCapacity + itemWeight> capacity) || ((itemWeight > capacity)))
                         {
                             cout << endl;
-                            cout << "Previous item added exceeds the van's total capacity so it wasn't added!" << endl;
+                            cout << "Warning: Item wasn't added as total capacity will be exceeded!" << endl;
                             
                             cout << "Remaing Space: " << capacity - TotalCapacity << endl;
                             cout << endl;
@@ -350,6 +383,7 @@ int main()
                         {
                             arr.insert(itemID, itemName, itemWeight);
                         }
+                        cout << endl;
                         cout << "Continue Loading Items onto Van? [Y|N] : ";
                         cin >> yn;
                     }while(yn == 'Y' || yn == 'y');
@@ -398,7 +432,7 @@ int main()
             }
             else
             {
-                cout << "Van is Full!" << endl;
+                cout << "Warning: Van is Full!" << endl;
                 cout << "//--------------------------------------------------------------//\n"; 
             }
             
@@ -488,7 +522,7 @@ int main()
             }
             else
             {
-                cout << "Van is Empty!" << endl;
+                cout << "Warning: Van is Empty!" << endl;
                 cout << "//--------------------------------------------------------------//\n"; 
             }
     
@@ -504,13 +538,13 @@ int main()
             }
             else
             {
-                cout << "Van is Empty!" << endl;
+                cout << "Warning: Van is Empty!" << endl;
                 cout << "//--------------------------------------------------------------//\n"; 
             }
             break;
         }
         default:
-            cout << "Invalid choice!" << endl;
+            cout << "Warning: Invalid choice!" << endl;
             break;
         }
         arr.menu();
