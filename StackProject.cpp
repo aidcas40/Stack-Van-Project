@@ -400,18 +400,10 @@ int main()
 
                 // Sorting Items before Entering them into Van.
                 cout << "~Items Sorted Via Weigth~" << endl;
+                numItems = arr.getnumItems();
                 arr.Quicksort(0, numItems - 1);
                 arr.displayClassItems();
                 cout << endl;
-
-                /*if(!van.isEmpty())
-                {
-                    for(int i = 0; i < van.getnumVanItems(); i++)
-                    {
-                        van.pop();
-                    }
-                    cout << "//--------------------------------------------------------------//\n";
-                }*/
 
                 while (!van.isEmpty())
                 {
