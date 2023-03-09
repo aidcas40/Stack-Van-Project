@@ -176,9 +176,9 @@ public:
 
     Item *pop() // take item from top
     {
-        cout << stackVan[top]->getName() << " has been unloaded from the van." << endl; // displays grocery item deleted from the top
-        return stackVan[top--];                                                         // access item,
-    }                                                                                   // decrement
+        cout << stackVan[top]->getName() << " has been unloaded from the van." << endl; 
+        return stackVan[top--];                                                         
+    }                                                                                   
     string popID()
     {
         return stackVan[top]->getID();
@@ -218,11 +218,11 @@ public:
         {
             cout << "~Items Loaded~" << endl;
             for (int i = top; i >= 0; i--)  // for each item
-                stackVan[i]->displayItem(); // display it, both the grocery name and price
+                stackVan[i]->displayItem(); // display it
             cout << endl;
         }
     }
-}; // end class groceryItem
+}; // end class VanStack
 
 class UnloadStack
 {
@@ -281,7 +281,7 @@ public:
             cout << "~Items Unloaded~" << endl;
             for (int i = top; i >= 0; i--) // for each item
             {
-                stackUn[i]->displayItem(); // display it, both the grocery name and price
+                stackUn[i]->displayItem(); // display it
             }
             cout << endl;
         }
