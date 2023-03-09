@@ -409,7 +409,7 @@ int main()
                 {
                     van.pop();
                 }
-
+                cout << "//--------------------------------------------------------------//\n";
                 // Entering Items onto van.
                 cout << "Loading All Items onto Van!" << endl;
                 string vanItemID, vanItemName;
