@@ -306,6 +306,9 @@ int main()
     arr.insert("2014", "Computer", 10);
     arr.insert("1025", "Stove", 280);
     
+    //Sorting before entering into array.
+    numItems = arr.getnumItems();
+    arr.Quicksort(0, numItems - 1);
     
     //Inserting the items into stack.
     for (int j = 0; j < arr.getnumItems(); j++)
