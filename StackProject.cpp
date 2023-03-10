@@ -294,7 +294,7 @@ int main()
     ClassItemArray arr(maxSize); // array
     VanStack van(maxSize);
     UnloadStack unload(maxSize);
-    int choice;
+    char choice;
     string itemID, itemName;
     double itemWeight, TotalCapacity;
     double capacity;
@@ -336,11 +336,11 @@ int main()
     cout << "Enter your choice: ";
     cin >> choice;
 
-    while (choice != 4)
+    while (choice != '4')
     {
         switch (choice)
         {
-        case 1:
+        case '1':
         {
             if (!van.isFull())
             {
@@ -435,7 +435,7 @@ int main()
 
             break;
         }
-        case 2:
+        case '2':
         {
             cout << endl;
             if (!van.isEmpty())
@@ -525,7 +525,7 @@ int main()
 
             break;
         }
-        case 3:
+        case '3':
         {
             cout << endl;
             if (!van.isEmpty())
