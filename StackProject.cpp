@@ -143,6 +143,19 @@ public:
     }
 
     //--------------------------------------------------------------
+    bool uniqueID(string vanItemID) // method that checks if item ID is Unique
+    {
+        for (int i = 0; i < numItems; i++)
+        {
+            if (v[i]->getID() == vanItemID)
+            {
+                return true;
+            }
+        }
+        return false; // returns false when it is unique
+    }
+
+    //--------------------------------------------------------------
     void menu() // displays menu options
     {
         cout << "Menu: " << endl;
@@ -166,7 +179,7 @@ public:
     {
         stackVan.reserve(capacity); // size the vector
     }
-    
+
     //--------------------------------------------------------------
     void push(string itemIDVan, string itemNameVan, double itemWeightVan) // put item on top
     {
@@ -176,9 +189,9 @@ public:
 
     Item *pop() // take item from top
     {
-        cout << stackVan[top]->getName() << " has been unloaded from the van." << endl; 
-        return stackVan[top--];                                                         
-    }                                                                                   
+        cout << stackVan[top]->getName() << " has been unloaded from the van." << endl;
+        return stackVan[top--];
+    }
     string popID()
     {
         return stackVan[top]->getID();
@@ -354,8 +367,18 @@ int main()
                     {
                         cout << "Enter the Item's ID: ";
                         cin >> itemID;
+
                         // Checking if the ID is unique
-                        for (int i = 0; i < arr.getnumItems(); i++)
+                        while (arr.uniqueID(itemID))
+                        {
+                            cout << "Warning: ID is already in use!" << endl;
+                            cout << endl;
+                            cout << "Enter the Item's ID: ";
+                            cin >> itemID;
+
+                        }
+
+                        /*for (int i = 0; i < arr.getnumItems(); i++)
                         {
                             string check;
                             check = arr.returnID(i);
@@ -366,7 +389,8 @@ int main()
                                 cout << "Enter the Item's ID: ";
                                 cin >> itemID;
                             }
-                        }
+                        }*/
+
                         cout << "Enter the Item's Name: ";
                         cin >> itemName;
                         cout << "Enter the Item's Weight: ";
