@@ -529,7 +529,7 @@ int main()
                     }
                     else
                     {
-                        cout << "ID not Found!" << endl;
+                        cout << "Warning: ID not Found!" << endl;
                         cout << "//--------------------------------------------------------------//\n";
                         break;
                     }
