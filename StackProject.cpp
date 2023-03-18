@@ -378,7 +378,7 @@ int main()
 
                         }
 
-                        for (int i = 0; i < arr.getnumItems(); i++)
+                        /*for (int i = 0; i < arr.getnumItems(); i++)
                         {
                             string check;
                             check = arr.returnID(i);
@@ -389,7 +389,7 @@ int main()
                                 cout << "Enter the Item's ID: ";
                                 cin >> itemID;
                             }
-                        }
+                        }*/
 
                         cout << "Enter the Item's Name: ";
                         cin >> itemName;
@@ -529,7 +529,7 @@ int main()
                     }
                     else
                     {
-                        cout << "Warning: ID not Found!" << endl;
+                        cout << "ID not Found!" << endl;
                         cout << "//--------------------------------------------------------------//\n";
                         break;
                     }
